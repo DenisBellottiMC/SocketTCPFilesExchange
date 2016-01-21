@@ -18,5 +18,7 @@ namespace SocketTCPFilesExchange
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmSendFile());
         }
+
+
     }
 }

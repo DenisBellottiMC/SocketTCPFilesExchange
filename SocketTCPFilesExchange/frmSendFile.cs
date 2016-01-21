@@ -14,6 +14,9 @@ namespace SocketTCPFilesExchange
 {
     public partial class frmSendFile : Form
     {
+        public void SendTCP(string M, string IPA, Int32 PortN)
+        { }
+
         public frmSendFile()
         {
             InitializeComponent();
