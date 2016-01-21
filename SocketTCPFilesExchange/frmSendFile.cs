@@ -57,7 +57,7 @@ namespace SocketTCPFilesExchange
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                    MessageBox.Show("Error: Could not read file from disk. Error: " + ex.Message);
                 }
             }
 
