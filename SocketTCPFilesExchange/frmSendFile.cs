@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -18,58 +19,84 @@ namespace SocketTCPFilesExchange
     public partial class frmSendFile : Form
     {
         const int BufferSize = 1024;
+        const int ServiceStandardPort = 999;
 
-        public void SendTCP(string M, string IPA, Int32 PortN)
+        public void ReceiveTCP(int portN)
         {
-            byte[] SendingBuffer = null;
-            TcpClient Client = null;
-            lblStatus.Text = "Connecting to Server...";
-            NetworkStream netstream = null;
-
+            TcpListener Listener = null;
+            String Status;
             try
             {
-                Client = new TcpClient(IPA, PortN);
-                lblStatus.Text = "Connected to Server...";
-                netstream = Client.GetStream();
-                FileStream Fs = new FileStream(M, FileMode.Open, FileAccess.Read);
-                int NoOfPackets = Convert.ToInt32
-                    (Math.Ceiling(Convert.ToDouble(Fs.Length) / Convert.ToDouble(BufferSize)));
-                prgSendFile.Maximum = NoOfPackets;
-                int TotalLength = (int)Fs.Length, CurrentPacketLength, counter = 0;
-                for (int i = 0; i < NoOfPackets; i++)
-                 {
-                     if (TotalLength > BufferSize)
-                     {
-                         CurrentPacketLength = BufferSize;
-                         TotalLength = TotalLength - CurrentPacketLength;
-                     }
-                     else
-                         CurrentPacketLength = TotalLength;
-                         SendingBuffer = new byte[CurrentPacketLength];
-                         Fs.Read(SendingBuffer, 0, CurrentPacketLength);
-                         netstream.Write(SendingBuffer, 0, (int)SendingBuffer.Length);
-                         if (prgSendFile.Value >= prgSendFile.Maximum)
-                              prgSendFile.Value = prgSendFile.Minimum;
-                         prgSendFile.PerformStep();
-                     }
-                
-                     lblStatus.Text=lblStatus.Text+"Sent "+Fs.Length.ToString()+" bytes to the server";
-                     Fs.Close();
+                Listener = new TcpListener(IPAddress.Any, portN);
+                Listener.Start();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
-            finally 
+
+            byte[] RecData = new byte[BufferSize];
+            int RecBytes;
+
+            for (; ; )
             {
-                netstream.Close();
-                Client.Close();
+                TcpClient client = null;
+                NetworkStream netstream = null;
+                Status = string.Empty;
+                try
+                {
+                    string message = "Accept the Incoming File ";
+                    string caption = "Incoming Connection";
+                    MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                    DialogResult result;
+
+                    if (Listener.Pending())
+                    {
+                        client = Listener.AcceptTcpClient();
+                        netstream = client.GetStream();
+                        Status = "Connected to a client\n";
+                        result = MessageBox.Show(message, caption, buttons);
+
+                        if (result == System.Windows.Forms.DialogResult.Yes)
+                        {
+                            string SaveFileName = string.Empty;
+                            SaveFileDialog DialogSave = new SaveFileDialog();
+                            DialogSave.Filter = "All files (*.*)|*.*";
+                            DialogSave.RestoreDirectory = true;
+                            DialogSave.Title = "Where do you want to save the file?";
+                            DialogSave.InitialDirectory = @"C:/";
+                            if (DialogSave.ShowDialog() == DialogResult.OK)
+                                SaveFileName = DialogSave.FileName;
+                            if (SaveFileName != string.Empty)
+                            {
+                                int totalrecbytes = 0;
+                                FileStream Fs = new FileStream
+                 (SaveFileName, FileMode.OpenOrCreate, FileAccess.Write);
+                                while ((RecBytes = netstream.Read
+                     (RecData, 0, RecData.Length)) > 0)
+                                {
+                                    Fs.Write(RecData, 0, RecBytes);
+                                    totalrecbytes += RecBytes;
+                                }
+                                Fs.Close();
+                            }
+                            netstream.Close();
+                            client.Close();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    //netstream.Close();
+                }
             }
         }
 
         public frmSendFile()
         {
             InitializeComponent();
+            new Thread(delegate() { ReceiveTCP(ServiceStandardPort); });
         }
 
         private void btnSend_Click(object sender, EventArgs e)
