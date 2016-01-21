@@ -37,11 +37,12 @@
             this.txtIPAddress = new System.Windows.Forms.MaskedTextBox();
             this.lblFileToSend = new System.Windows.Forms.Label();
             this.lblStatus = new System.Windows.Forms.Label();
+            this.prgSendFile = new System.Windows.Forms.ProgressBar();
             this.SuspendLayout();
             // 
             // btnSelectFile
             // 
-            this.btnSelectFile.Location = new System.Drawing.Point(156, 52);
+            this.btnSelectFile.Location = new System.Drawing.Point(133, 26);
             this.btnSelectFile.Name = "btnSelectFile";
             this.btnSelectFile.Size = new System.Drawing.Size(75, 23);
             this.btnSelectFile.TabIndex = 0;
@@ -52,7 +53,7 @@
             // lblSelectFile
             // 
             this.lblSelectFile.AutoSize = true;
-            this.lblSelectFile.Location = new System.Drawing.Point(79, 57);
+            this.lblSelectFile.Location = new System.Drawing.Point(56, 31);
             this.lblSelectFile.Name = "lblSelectFile";
             this.lblSelectFile.Size = new System.Drawing.Size(71, 13);
             this.lblSelectFile.TabIndex = 1;
@@ -61,7 +62,7 @@
             // lblIPAddress
             // 
             this.lblIPAddress.AutoSize = true;
-            this.lblIPAddress.Location = new System.Drawing.Point(26, 104);
+            this.lblIPAddress.Location = new System.Drawing.Point(26, 91);
             this.lblIPAddress.Name = "lblIPAddress";
             this.lblIPAddress.Size = new System.Drawing.Size(58, 13);
             this.lblIPAddress.TabIndex = 2;
@@ -70,7 +71,7 @@
             // lblPort
             // 
             this.lblPort.AutoSize = true;
-            this.lblPort.Location = new System.Drawing.Point(48, 133);
+            this.lblPort.Location = new System.Drawing.Point(48, 120);
             this.lblPort.Name = "lblPort";
             this.lblPort.Size = new System.Drawing.Size(36, 13);
             this.lblPort.TabIndex = 3;
@@ -78,14 +79,14 @@
             // 
             // txtPort
             // 
-            this.txtPort.Location = new System.Drawing.Point(90, 130);
+            this.txtPort.Location = new System.Drawing.Point(90, 117);
             this.txtPort.Name = "txtPort";
             this.txtPort.Size = new System.Drawing.Size(141, 20);
             this.txtPort.TabIndex = 5;
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(29, 226);
+            this.btnSend.Location = new System.Drawing.Point(29, 196);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(202, 23);
             this.btnSend.TabIndex = 6;
@@ -95,14 +96,15 @@
             // 
             // txtIPAddress
             // 
-            this.txtIPAddress.Location = new System.Drawing.Point(90, 101);
+            this.txtIPAddress.Location = new System.Drawing.Point(90, 88);
+            this.txtIPAddress.Mask = "###.###.###";
             this.txtIPAddress.Name = "txtIPAddress";
             this.txtIPAddress.Size = new System.Drawing.Size(141, 20);
             this.txtIPAddress.TabIndex = 7;
             // 
             // lblFileToSend
             // 
-            this.lblFileToSend.Location = new System.Drawing.Point(29, 210);
+            this.lblFileToSend.Location = new System.Drawing.Point(29, 180);
             this.lblFileToSend.Name = "lblFileToSend";
             this.lblFileToSend.Size = new System.Drawing.Size(202, 13);
             this.lblFileToSend.TabIndex = 8;
@@ -110,18 +112,26 @@
             // 
             // lblStatus
             // 
-            this.lblStatus.Location = new System.Drawing.Point(29, 252);
+            this.lblStatus.Location = new System.Drawing.Point(29, 222);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(202, 23);
             this.lblStatus.TabIndex = 9;
             this.lblStatus.Text = "<IDLE>";
             this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // prgSendFile
+            // 
+            this.prgSendFile.Location = new System.Drawing.Point(2, 248);
+            this.prgSendFile.Name = "prgSendFile";
+            this.prgSendFile.Size = new System.Drawing.Size(280, 23);
+            this.prgSendFile.TabIndex = 10;
+            // 
             // frmSendFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 284);
+            this.ClientSize = new System.Drawing.Size(284, 273);
+            this.Controls.Add(this.prgSendFile);
             this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblFileToSend);
             this.Controls.Add(this.txtIPAddress);
@@ -149,6 +159,7 @@
         private System.Windows.Forms.MaskedTextBox txtIPAddress;
         private System.Windows.Forms.Label lblFileToSend;
         private System.Windows.Forms.Label lblStatus;
+        private System.Windows.Forms.ProgressBar prgSendFile;
     }
 }
 

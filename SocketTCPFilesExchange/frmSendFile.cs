@@ -11,10 +11,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+
+
 namespace SocketTCPFilesExchange
 {
     public partial class frmSendFile : Form
     {
+        const int BufferSize = 1024;
+
         public void SendTCP(string M, string IPA, Int32 PortN)
         {
             byte[] SendingBuffer = null;
@@ -26,6 +30,31 @@ namespace SocketTCPFilesExchange
             {
                 Client = new TcpClient(IPA, PortN);
                 lblStatus.Text = "Connected to Server...";
+                netstream = Client.GetStream();
+                FileStream Fs = new FileStream(M, FileMode.Open, FileAccess.Read);
+                int NoOfPackets = Convert.ToInt32
+                    (Math.Ceiling(Convert.ToDouble(Fs.Length) / Convert.ToDouble(BufferSize)));
+                prgSendFile.Maximum = NoOfPackets;
+                int TotalLength = (int)Fs.Length, CurrentPacketLength, counter = 0;
+                for (int i = 0; i < NoOfPackets; i++)
+                 {
+                     if (TotalLength > BufferSize)
+                     {
+                         CurrentPacketLength = BufferSize;
+                         TotalLength = TotalLength - CurrentPacketLength;
+                     }
+                     else
+                         CurrentPacketLength = TotalLength;
+                         SendingBuffer = new byte[CurrentPacketLength];
+                         Fs.Read(SendingBuffer, 0, CurrentPacketLength);
+                         netstream.Write(SendingBuffer, 0, (int)SendingBuffer.Length);
+                         if (prgSendFile.Value >= prgSendFile.Maximum)
+                              prgSendFile.Value = prgSendFile.Minimum;
+                         prgSendFile.PerformStep();
+                     }
+                
+                     lblStatus.Text=lblStatus.Text+"Sent "+Fs.Length.ToString()+" bytes to the server";
+                     Fs.Close();
             }
             catch(Exception ex)
             {
@@ -33,6 +62,8 @@ namespace SocketTCPFilesExchange
             }
             finally 
             {
+                netstream.Close();
+                Client.Close();
             }
         }
 
@@ -46,7 +77,8 @@ namespace SocketTCPFilesExchange
             IPAddress ipAddress;
             if (IPAddress.TryParse(txtIPAddress.Text, out ipAddress))
             {
-                //valid ip
+               Int32 PortN = 1000;
+               SendTCP(lblFileToSend.Text, ipAddress.ToString(), PortN);
             }
             else
             {
