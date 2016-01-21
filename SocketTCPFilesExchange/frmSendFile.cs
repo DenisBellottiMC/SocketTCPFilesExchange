@@ -144,10 +144,12 @@ namespace SocketTCPFilesExchange
 
         public frmSendFile()
         {
-            InitializeComponent();/*
+            InitializeComponent();
             ThreadStart Ts = new ThreadStart(StartReceiving);
+            
             T = new Thread(Ts);
-            T.Start();*/
+            T.SetApartmentState(ApartmentState.STA);
+            T.Start();
         }
 
         public void StartReceiving()
