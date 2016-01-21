@@ -97,10 +97,10 @@
             // txtIPAddress
             // 
             this.txtIPAddress.Location = new System.Drawing.Point(90, 88);
-            this.txtIPAddress.Mask = "###.###.###";
             this.txtIPAddress.Name = "txtIPAddress";
             this.txtIPAddress.Size = new System.Drawing.Size(141, 20);
             this.txtIPAddress.TabIndex = 7;
+            this.txtIPAddress.MaskInputRejected += new System.Windows.Forms.MaskInputRejectedEventHandler(this.txtIPAddress_MaskInputRejected);
             // 
             // lblFileToSend
             // 
