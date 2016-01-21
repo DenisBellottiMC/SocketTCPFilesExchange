@@ -36,6 +36,7 @@
             this.btnSend = new System.Windows.Forms.Button();
             this.txtIPAddress = new System.Windows.Forms.MaskedTextBox();
             this.lblFileToSend = new System.Windows.Forms.Label();
+            this.lblStatus = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btnSelectFile
@@ -84,9 +85,9 @@
             // 
             // btnSend
             // 
-            this.btnSend.Location = new System.Drawing.Point(90, 226);
+            this.btnSend.Location = new System.Drawing.Point(29, 226);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(141, 23);
+            this.btnSend.Size = new System.Drawing.Size(202, 23);
             this.btnSend.TabIndex = 6;
             this.btnSend.Text = "Send File";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -101,18 +102,27 @@
             // 
             // lblFileToSend
             // 
-            this.lblFileToSend.AutoSize = true;
-            this.lblFileToSend.Location = new System.Drawing.Point(90, 190);
+            this.lblFileToSend.Location = new System.Drawing.Point(29, 210);
             this.lblFileToSend.Name = "lblFileToSend";
-            this.lblFileToSend.Size = new System.Drawing.Size(60, 13);
+            this.lblFileToSend.Size = new System.Drawing.Size(202, 13);
             this.lblFileToSend.TabIndex = 8;
             this.lblFileToSend.Text = "<NO FILE>";
+            // 
+            // lblStatus
+            // 
+            this.lblStatus.Location = new System.Drawing.Point(29, 252);
+            this.lblStatus.Name = "lblStatus";
+            this.lblStatus.Size = new System.Drawing.Size(202, 23);
+            this.lblStatus.TabIndex = 9;
+            this.lblStatus.Text = "<IDLE>";
+            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmSendFile
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 284);
+            this.Controls.Add(this.lblStatus);
             this.Controls.Add(this.lblFileToSend);
             this.Controls.Add(this.txtIPAddress);
             this.Controls.Add(this.btnSend);
@@ -138,6 +148,7 @@
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.MaskedTextBox txtIPAddress;
         private System.Windows.Forms.Label lblFileToSend;
+        private System.Windows.Forms.Label lblStatus;
     }
 }
 

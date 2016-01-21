@@ -6,6 +6,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,7 +16,25 @@ namespace SocketTCPFilesExchange
     public partial class frmSendFile : Form
     {
         public void SendTCP(string M, string IPA, Int32 PortN)
-        { }
+        {
+            byte[] SendingBuffer = null;
+            TcpClient Client = null;
+            lblStatus.Text = "Connecting to Server...";
+            NetworkStream netstream = null;
+
+            try
+            {
+                Client = new TcpClient(IPA, PortN);
+                lblStatus.Text = "Connected to Server...";
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally 
+            {
+            }
+        }
 
         public frmSendFile()
         {
