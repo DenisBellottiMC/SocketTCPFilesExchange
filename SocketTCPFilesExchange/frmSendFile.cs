@@ -145,16 +145,24 @@ namespace SocketTCPFilesExchange
         public frmSendFile()
         {
             InitializeComponent();
-            ThreadStart Ts = new ThreadStart(StartReceiving);
-            
+ 
+            BackgroundWorker bw = new BackgroundWorker();
+
+            bw.DoWork += StartReceiving;
+            bw.RunWorkerAsync();
+
+        }
+
+        private void ReceiveTCPCall(){
+            ReceiveTCP(ServiceStandardPort);
+        }
+
+        public void StartReceiving(object sender, System.ComponentModel.DoWorkEventArgs e)
+        {
+            ThreadStart Ts = new ThreadStart(ReceiveTCPCall);
             T = new Thread(Ts);
             T.SetApartmentState(ApartmentState.STA);
             T.Start();
-        }
-
-        public void StartReceiving()
-        {
-            ReceiveTCP(ServiceStandardPort);
         }
 
         private void btnSend_Click(object sender, EventArgs e)
